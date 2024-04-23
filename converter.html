@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Converter</title>
+</head>
+<body>
+    <h1>Text Converter</h1>
+    <button onclick="onClickConvertToSentenceCase()">Convert to Sentencecase</button>
+    <button onclick="onClickConvertToEnglish()">Convert To English</button>
+    <button onclick="onClickConvertToHebrew()">Convert To Hebrew</button>
+    <br><br>
+    <label for="inputText">Input Text:</label>
+    <br><br>
+    <textarea  id="inputText" rows="8" cols="50"></textarea>
+    <br><br>
+    <button onclick="copyToClipboard()">Copy output to Clipboard</button>
+    <button onclick="onClickClearInput()">Clear input</button>
+    <br><br>
+    <label for="outputText">Output Text:</label>
+    <br><br>
+    <textarea  id="outputText" rows="8" cols="50"></textarea>
+    <br><br>
+
+	
+    
+
+
+    <script>
+        function onClickConvertToSentenceCase() {
+            var inputText = document.getElementById("inputText").value;
+            var outputText = toSentenceCase(inputText);
+            document.getElementById("outputText").value = outputText;  
+        }
+        
+        
+        function onClickClearInput() {
+            document.getElementById("outputText").value = "";  
+        }
+        
+         function onClickConvertToEnglish() {
+            var inputText = document.getElementById("inputText").value;
+            var convertedText = convertToEnglish(inputText);
+            var outputText = toSentenceCase(convertedText);
+            document.getElementById("outputText").value = outputText; 
+        }
+         function onClickConvertToHebrew() {
+            var inputText = document.getElementById("inputText").value;
+            var outputText = convertToHebrew(inputText);
+            document.getElementById("outputText").value = outputText; 
+        }
+        
+        
+        function toSentenceCase(inputString) {
+
+    		return inputString.toLowerCase().replace(/(^\w{1}|\.\s*\w{1})/g, function(char) {
+        		return char.toUpperCase();
+    		});
+		}
+
+        function copyToClipboard() {
+            var outputText = document.getElementById("outputText");
+            outputText.select();
+            document.execCommand("copy");
+        }
+
+
+// Define a mapping of QWERTY keyboard layout in Hebrew to QWERTY keyboard layout in English
+const hebrewToEnglishMapping = {
+    '/': 'q', '`': "'", 'ק': 'e', 'ר': 'r', 'א': 't', 'ט': 'y', 'ו': 'u', 'ן': 'i', 'ם': 'o', 'פ': 'p',
+    'ש': 'a', 'ד': 's', 'ג': 'd', 'כ': 'f', 'ע': 'g', 'י': 'h', 'ח': 'j', 'ל': 'k', 'ך': 'l', 'ף': ';',
+    'ז': 'z', 'ס': 'x', 'ב': 'c', 'ה': 'v', 'נ': 'b', 'מ': 'n', 'צ': 'm', 'ת': ',', 'ץ': '.',
+    // Punctuation marks
+    ' ': ' ', '\'': '\'', ':': ':', ',': '\'', '.': '/', ';': ';', '!': '!', '?': '?', 
+    '(': ')', ')': '(', ']': '[', '[': ']', '{': '}', '}': '{', '<': '>', '>': '<', '@': '@', '#': '#', 
+    '$': '$', '%': '%', '^': '^', '&': '&', '*': '*', '-': '-', '_': '_', '=': '=', '+': '+', 
+    '`': '`', '~': '~', '"': '"'
+    // Add more mappings as needed
+};
+
+// Define a mapping of QWERTY keyboard layout in Hebrew to QWERTY keyboard layout in English
+const englishToHebrewMapping = {
+    'q': '/', "w": '\'', 'e': 'ק', 'r': 'ר', 't': 'א', 'y': 'ט', 'u': 'ו', 'i': 'ן', 'o': 'ם', 'p': 'פ',
+    'a': 'ש', 's': 'ד', 'd': 'ג', 'f': 'כ', 'g': 'ע', 'h': 'י', 'j': 'ח', 'k': 'ל', 'l': 'ך', ';': 'ף',
+    'z': 'ז', 'x': 'ס', 'c': 'ב', 'v': 'ה', 'b': 'נ', 'n': 'מ', 'm': 'צ', ',': 'ת', '.': 'ץ',
+    ' ': ' ', ':': ':', "\'": ",", '/': '.', '!': '!', '?': '?', 
+    '(': ')', ')': '(', ']': '[', '[': ']', '{': '}', '}': '{', '<': '>', '>': '<', '@': '@', '#': '#', 
+    '$': '$', '%': '%', '^': '^', '&': '&', '*': '*', '-': '-', '_': '_', '=': '=', '+': '+', 
+    '`': '`', '~': '~', '"': '"'
+};
+
+
+// Function to convert Hebrew text to English based on the mapping
+function convertToEnglish(hebrewText) {
+    let englishText = '';
+    for (let i = 0; i < hebrewText.length; i++) {
+        const char = hebrewText[i];
+        englishText += hebrewToEnglishMapping[char] || char;
+    }
+    return toSentenceCase(englishText);
+}
+
+// Function to convert Hebrew text to English based on the mapping
+function convertToHebrew(originalText) {
+    originalText = originalText.toLowerCase();
+    let convertedText = '';
+    for (let i = 0; i < originalText.length; i++) {
+        const char = originalText[i];
+        convertedText += englishToHebrewMapping[char] || char;
+    }
+    return convertedText;
+}
+
+
+
+    </script>
+</body>
+</html>
